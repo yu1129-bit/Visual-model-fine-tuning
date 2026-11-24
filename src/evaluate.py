@@ -13,7 +13,7 @@ from sklearn.metrics import (accuracy_score, f1_score, confusion_matrix,
                              top_k_accuracy_score)
 
 from data import build_loaders
-from models import build_model, build_v4
+from models import build_model, build_v4, merge_lora_v4
 
 
 @torch.no_grad()
@@ -71,10 +71,10 @@ def main(args):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
     if args.variant == "v4":
-        # LoRA：加载后 merge_and_unload 再评估
+        # LoRA：加载后合并权重再评估
         model = build_v4(r=args.lora_r, alpha=args.lora_alpha)
         model.load_state_dict(torch.load(args.ckpt, map_location=device)["model_state"])
-        model = model.merge_and_unload()
+        model = merge_lora_v4(model)
         model = model.to(device)
     else:
         model = build_model(args.variant)

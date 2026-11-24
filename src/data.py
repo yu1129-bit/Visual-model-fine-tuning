@@ -67,7 +67,8 @@ def write_splits(trainval, test, train_idx, val_idx, split_dir: str = SPLITS_DIR
         rows = []
         for i in indices:
             path, label = trainval._images[i], trainval._labels[i]
-            rows.append([path, int(label), class_names[label - 1], split_name])
+            # torchvision 的 _labels 是 0-indexed（0-36）
+            rows.append([path, int(label), class_names[label], split_name])
         return rows
 
     def _write(path, rows):
@@ -82,7 +83,7 @@ def write_splits(trainval, test, train_idx, val_idx, split_dir: str = SPLITS_DIR
     # 官方 test 集
     test_rows = [
         [test._images[i], int(test._labels[i]),
-         class_names[test._labels[i] - 1], "test"]
+         class_names[test._labels[i]], "test"]
         for i in range(len(test))
     ]
     _write(os.path.join(split_dir, "test.csv"), test_rows)
@@ -145,7 +146,7 @@ class PetDataset(Dataset):
     def __getitem__(self, i):
         r = self.rows[i]
         img = Image.open(r["image_path"]).convert("RGB")
-        label = int(r["class_id"]) - 1  # 0-indexed
+        label = int(r["class_id"])  # 已经是 0-indexed（0-36）
         if self.transform:
             img = self.transform(img)
         return img, label

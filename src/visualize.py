@@ -15,7 +15,7 @@ from pytorch_grad_cam import GradCAM
 from pytorch_grad_cam.utils.model_targets import ClassifierOutputTarget
 from pytorch_grad_cam.utils.image import show_cam_on_image
 
-from models import build_model, build_v4
+from models import build_model, build_v4, merge_lora_v4
 
 
 def draw_training_curves(history, save_path, title):
@@ -100,7 +100,7 @@ def main(args):
     if args.variant == "v4":
         model = build_v4()
         model.load_state_dict(torch.load(args.ckpt, map_location=device)["model_state"])
-        model = model.merge_and_unload()
+        model = merge_lora_v4(model)
     else:
         model = build_model(args.variant)
         model.load_state_dict(torch.load(args.ckpt, map_location=device)["model_state"])

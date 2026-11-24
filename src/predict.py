@@ -8,7 +8,7 @@ import torch
 import timm
 from torchvision import transforms
 
-from models import build_model, build_v4, resolve_data_config
+from models import build_model, build_v4, merge_lora_v4, resolve_data_config
 from data import PetDataset
 
 
@@ -33,8 +33,8 @@ def main(args):
         model = build_v4(r=args.lora_r, alpha=args.lora_alpha)
         ckpt = torch.load(args.ckpt, map_location=device)
         model.load_state_dict(ckpt["model_state"])
-        model = model.merge_and_unload()
-        print("[v4] LoRA 权重已 merge_and_unload")
+        model = merge_lora_v4(model)
+        print("[v4] LoRA 权重已合并（merge）")
     else:
         model = build_model(args.variant)
         model.load_state_dict(torch.load(args.ckpt, map_location=device)["model_state"])

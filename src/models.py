@@ -1,8 +1,13 @@
-"""模型构建：V1/V2/V3/V4 四组模型 + LoRA 注入。"""
+"""模型构建：V1/V2/V3/V4 四组模型 + LoRA 注入。
+
+LoRA 使用自定义实现（不依赖 peft），针对 timm ViT 的注意力 qkv 线性层注入低秩旁路。
+"""
+
+import math
 
 import timm
+import torch
 import torch.nn as nn
-from peft import LoraConfig, get_peft_model
 
 NUM_CLASSES = 37
 
@@ -44,22 +49,71 @@ def build_v3():
 
 
 # --------------------------------------------------------------------------- #
-# V4：ViT-B/16 + LoRA
+# V4：ViT-B/16 + LoRA（自定义 LoRA 实现，注入注意力层的 qkv）
 # --------------------------------------------------------------------------- #
+class LoRALinear(nn.Module):
+    """在某个 Linear 层上加低秩旁路：out = W x + (alpha/r) * B A x。
+
+    冻结原权重 W，只训练 A、B。
+    """
+
+    def __init__(self, linear: nn.Linear, r: int = 8, alpha: int = 16, dropout: float = 0.1):
+        super().__init__()
+        self.linear = linear  # 原层（冻结）
+        self.r = r
+        self.alpha = alpha
+        self.scaling = alpha / r
+        in_features = linear.in_features
+        out_features = linear.out_features
+        # A: (in, r)，B: (r, out)
+        self.lora_A = nn.Parameter(torch.zeros(in_features, r))
+        self.lora_B = nn.Parameter(torch.zeros(r, out_features))
+        self.lora_dropout = nn.Dropout(dropout) if dropout > 0 else nn.Identity()
+        # 初始化：A 用 kaiming 均匀，B 置零（使初始旁路为 0）
+        nn.init.kaiming_uniform_(self.lora_A, a=math.sqrt(5))
+        nn.init.zeros_(self.lora_B)
+        # 冻结原权重
+        self.linear.weight.requires_grad = False
+        if self.linear.bias is not None:
+            self.linear.bias.requires_grad = False
+
+    def forward(self, x):
+        out = self.linear(x)
+        delta = self.lora_dropout(x) @ self.lora_A @ self.lora_B
+        return out + delta * self.scaling
+
+
 def build_v4(r: int = 8, alpha: int = 16, dropout: float = 0.1):
     model = timm.create_model(
         "vit_base_patch16_224.augreg_in21k_ft_in1k",
         pretrained=True, num_classes=NUM_CLASSES,
     )
-    lora_config = LoraConfig(
-        r=r,
-        lora_alpha=alpha,
-        lora_dropout=dropout,
-        target_modules=["qkv"],  # timm ViT 注意力层的 qkv 合并在一个 Linear 里
-        bias="none",
-        task_type="SEQ_CLS",
-    )
-    model = get_peft_model(model, lora_config)
+    # 注入 LoRA 到所有 qkv 层
+    for name, module in model.named_modules():
+        if name.endswith("qkv") and isinstance(module, nn.Linear):
+            parent = model
+            parts = name.split(".")
+            for p in parts[:-1]:
+                parent = getattr(parent, p)
+            setattr(parent, parts[-1], LoRALinear(module, r=r, alpha=alpha, dropout=dropout))
+    # 分类头保持可训练（LoRA 层只冻结了 qkv，其余主干需要冻结）
+    for n, p in model.named_parameters():
+        if "head" not in n and "lora_A" not in n and "lora_B" not in n:
+            p.requires_grad = False
+    return model
+
+
+def merge_lora_v4(model):
+    """把 LoRA 旁路合并回原权重（merge_and_unload 的等价实现）。"""
+    for name, module in model.named_modules():
+        if isinstance(module, LoRALinear):
+            merged = module.linear.weight.data + (module.lora_A @ module.lora_B).t() * module.scaling
+            parent = model
+            parts = name.split(".")
+            for p in parts[:-1]:
+                parent = getattr(parent, p)
+            setattr(parent, parts[-1], module.linear)  # 换回原 Linear
+            module.linear.weight.data = merged
     return model
 
 

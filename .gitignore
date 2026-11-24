@@ -20,3 +20,11 @@ Thumbs.db
 # 本地环境
 .venv/
 venv/
+
+# 调试脚本与敏感信息（不入库）
+_check_*.py
+_test_*.py
+_launch.py
+ssh_run.py
+vf_code.tar.gz
+*.tar.gz
