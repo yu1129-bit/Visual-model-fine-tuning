@@ -1,4 +1,4 @@
-"""推理：输入图片路径或文件夹，输出 top-3 类别与置信度。V4 演示 merge_and_unload。"""
+"""推理：输入图片路径或文件夹，输出 top-3 类别与置信度。V4 演示合并 LoRA 权重后再推理。"""
 
 import os
 import argparse
