@@ -1,0 +1,15 @@
+# V3: ViT-B/16 全量微调
+variant: v3
+model_name: vit_base_patch16_224.augreg_in21k_ft_in1k
+epochs: 15
+batch_size: 64
+lr: 3e-5
+head_lr_ratio: 10.0
+weight_decay: 0.05
+warmup_epochs: 1
+label_smoothing: 0.1
+aa: rand-m9-mstd0.5-inc1
+amp: true
+grad_accum: 1
+grad_checkpointing: false
+num_workers: 8

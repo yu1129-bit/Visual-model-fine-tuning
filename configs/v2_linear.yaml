@@ -1,0 +1,15 @@
+# V2: ViT-B/16 线性探测（冻结主干）
+variant: v2
+model_name: vit_base_patch16_224.augreg_in21k_ft_in1k
+epochs: 50
+batch_size: 128
+lr: 1e-3
+head_lr_ratio: 1.0
+weight_decay: 0.0
+warmup_epochs: 1
+label_smoothing: 0.0
+aa: rand-m9-mstd0.5-inc1
+amp: true
+grad_accum: 1
+grad_checkpointing: false
+num_workers: 8

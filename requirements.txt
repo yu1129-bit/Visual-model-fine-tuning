@@ -1,0 +1,13 @@
+torch==2.2.2
+torchvision==0.17.2
+timm==0.9.16
+peft==0.10.0
+scikit-learn==1.4.2
+numpy==1.26.4
+pandas==2.2.2
+matplotlib==3.8.4
+tqdm==4.66.4
+pyyaml==6.0.1
+tensorboard==2.17.0
+pytorch-grad-cam==0.3.8
+pillow==10.3.0

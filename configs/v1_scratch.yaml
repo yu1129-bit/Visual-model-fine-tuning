@@ -1,0 +1,15 @@
+# V1: ResNet-18 从零训练
+variant: v1
+model_name: resnet18
+epochs: 100
+batch_size: 128
+lr: 0.1
+head_lr_ratio: 1.0
+weight_decay: 5e-4
+warmup_epochs: 5
+label_smoothing: 0.0
+aa: rand-m9-mstd0.5-inc1
+amp: true
+grad_accum: 1
+grad_checkpointing: false
+num_workers: 8
