@@ -9,8 +9,8 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 
-SPLIT_DIR = "/root/vision-finetune/splits"
-OUT_DIR = "/root/vision-finetune/outputs"
+SPLIT_DIR = "./splits"
+OUT_DIR = "./outputs"
 
 
 def load_csv(name):

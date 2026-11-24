@@ -15,14 +15,14 @@ import numpy as np
 import torch
 from torch.cuda.amp import autocast
 
-sys.path.insert(0, "/root/vision-finetune/src")
+sys.path.insert(0, "./src")
 
 
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--task", required=True, choices=["augment", "feature_pool", "lora_r"])
-    ap.add_argument("--split-dir", default="/root/vision-finetune/splits")
-    ap.add_argument("--output-dir", default="/root/vision-finetune/outputs")
+    ap.add_argument("--split-dir", default="./splits")
+    ap.add_argument("--output-dir", default="./outputs")
     args = ap.parse_args()
 
     if args.task == "augment":

@@ -26,5 +26,14 @@ _check_*.py
 _test_*.py
 _launch.py
 ssh_run.py
+_download.py
 vf_code.tar.gz
 *.tar.gz
+
+# 部署临时脚本（含服务器绝对路径/信息，不入库）
+run_eval.sh
+run_eval_seeds.sh
+run_train_all.sh
+
+# 大日志
+outputs/train_all.log

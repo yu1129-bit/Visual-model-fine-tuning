@@ -26,7 +26,7 @@ def predict_all(model, loader, device, use_amp=True):
             logits = model(images)
         all_logits.append(logits.cpu())
         all_targets.append(target.cpu())
-    logits = torch.cat(all_logits)
+    logits = torch.cat(all_logits).float()  # 转 float32，避免 Half 不支持 softmax
     targets = torch.cat(all_targets)
     probs = torch.softmax(logits, dim=1)
     preds = probs.argmax(dim=1)
@@ -86,7 +86,8 @@ def main(args):
 
     result = evaluate_model(model, test_loader, device, class_names)
     os.makedirs(args.output_dir, exist_ok=True)
-    out = os.path.join(args.output_dir, f"test_{args.variant}.json")
+    seed_suffix = f"_seed{args.seed}" if args.seed is not None else ""
+    out = os.path.join(args.output_dir, f"test_{args.variant}{seed_suffix}.json")
     with open(out, "w") as f:
         json.dump(result, f, indent=2)
     print(f"top1={result['top1']:.4f} top5={result['top5']:.4f} "
@@ -104,5 +105,6 @@ if __name__ == "__main__":
     ap.add_argument("--batch-size", type=int, default=64)
     ap.add_argument("--lora-r", type=int, default=8)
     ap.add_argument("--lora-alpha", type=int, default=16)
+    ap.add_argument("--seed", type=int, default=None)
     args = ap.parse_args()
     main(args)

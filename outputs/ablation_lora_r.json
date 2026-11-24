@@ -1,0 +1,17 @@
+{
+  "r=4": {
+    "best_val_top1": 96.75,
+    "trainable_params": 175909,
+    "peak_mem_gb": 3.62
+  },
+  "r=8": {
+    "best_val_top1": 96.21,
+    "trainable_params": 323365,
+    "peak_mem_gb": 3.62
+  },
+  "r=16": {
+    "best_val_top1": 96.48,
+    "trainable_params": 618277,
+    "peak_mem_gb": 3.63
+  }
+}

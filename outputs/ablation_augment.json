@@ -1,0 +1,11 @@
+{
+  "none": {
+    "best_val_top1": 95.39
+  },
+  "base": {
+    "best_val_top1": 95.39
+  },
+  "randaug": {
+    "best_val_top1": 93.5
+  }
+}

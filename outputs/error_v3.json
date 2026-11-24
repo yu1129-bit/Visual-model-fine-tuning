@@ -1,0 +1,167 @@
+{
+  "variant": "v3",
+  "total_wrong": 284,
+  "cross_species_among_wrong": 7,
+  "wrong_details": [
+    {
+      "index": 10,
+      "true": "Abyssinian",
+      "pred": "Bengal",
+      "cross_species": false,
+      "true_id": 0,
+      "pred_id": 5
+    },
+    {
+      "index": 14,
+      "true": "Abyssinian",
+      "pred": "British Shorthair",
+      "cross_species": false,
+      "true_id": 0,
+      "pred_id": 9
+    },
+    {
+      "index": 35,
+      "true": "Abyssinian",
+      "pred": "Bengal",
+      "cross_species": false,
+      "true_id": 0,
+      "pred_id": 5
+    },
+    {
+      "index": 57,
+      "true": "Abyssinian",
+      "pred": "Egyptian Mau",
+      "cross_species": false,
+      "true_id": 0,
+      "pred_id": 11
+    },
+    {
+      "index": 92,
+      "true": "Abyssinian",
+      "pred": "Bengal",
+      "cross_species": false,
+      "true_id": 0,
+      "pred_id": 5
+    },
+    {
+      "index": 128,
+      "true": "American Bulldog",
+      "pred": "Boxer",
+      "cross_species": false,
+      "true_id": 1,
+      "pred_id": 8
+    },
+    {
+      "index": 148,
+      "true": "American Bulldog",
+      "pred": "Boxer",
+      "cross_species": false,
+      "true_id": 1,
+      "pred_id": 8
+    },
+    {
+      "index": 156,
+      "true": "American Bulldog",
+      "pred": "Beagle",
+      "cross_species": false,
+      "true_id": 1,
+      "pred_id": 4
+    },
+    {
+      "index": 198,
+      "true": "American Pit Bull Terrier",
+      "pred": "Newfoundland",
+      "cross_species": true,
+      "true_id": 2,
+      "pred_id": 22
+    },
+    {
+      "index": 204,
+      "true": "American Pit Bull Terrier",
+      "pred": "Staffordshire Bull Terrier",
+      "cross_species": true,
+      "true_id": 2,
+      "pred_id": 34
+    },
+    {
+      "index": 208,
+      "true": "American Pit Bull Terrier",
+      "pred": "Staffordshire Bull Terrier",
+      "cross_species": true,
+      "true_id": 2,
+      "pred_id": 34
+    },
+    {
+      "index": 214,
+      "true": "American Pit Bull Terrier",
+      "pred": "Staffordshire Bull Terrier",
+      "cross_species": true,
+      "true_id": 2,
+      "pred_id": 34
+    },
+    {
+      "index": 215,
+      "true": "American Pit Bull Terrier",
+      "pred": "German Shorthaired",
+      "cross_species": true,
+      "true_id": 2,
+      "pred_id": 14
+    },
+    {
+      "index": 216,
+      "true": "American Pit Bull Terrier",
+      "pred": "Boxer",
+      "cross_species": false,
+      "true_id": 2,
+      "pred_id": 8
+    },
+    {
+      "index": 217,
+      "true": "American Pit Bull Terrier",
+      "pred": "American Bulldog",
+      "cross_species": false,
+      "true_id": 2,
+      "pred_id": 1
+    },
+    {
+      "index": 218,
+      "true": "American Pit Bull Terrier",
+      "pred": "American Bulldog",
+      "cross_species": false,
+      "true_id": 2,
+      "pred_id": 1
+    },
+    {
+      "index": 220,
+      "true": "American Pit Bull Terrier",
+      "pred": "Staffordshire Bull Terrier",
+      "cross_species": true,
+      "true_id": 2,
+      "pred_id": 34
+    },
+    {
+      "index": 221,
+      "true": "American Pit Bull Terrier",
+      "pred": "American Bulldog",
+      "cross_species": false,
+      "true_id": 2,
+      "pred_id": 1
+    },
+    {
+      "index": 222,
+      "true": "American Pit Bull Terrier",
+      "pred": "American Bulldog",
+      "cross_species": false,
+      "true_id": 2,
+      "pred_id": 1
+    },
+    {
+      "index": 224,
+      "true": "American Pit Bull Terrier",
+      "pred": "Staffordshire Bull Terrier",
+      "cross_species": true,
+      "true_id": 2,
+      "pred_id": 34
+    }
+  ]
+}
